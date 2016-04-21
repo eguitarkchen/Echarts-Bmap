@@ -20,7 +20,7 @@
     winWidth = w.innerWidth || e.clientWidth || g.clientWidth,
     winHeight = w.innerHeight|| e.clientHeight|| g.clientHeight;
 	$("#main").height(winHeight-16);
-	$("#main").width(winWidth-15);
+	$("#main").width(winWidth-16);
 </script>
 
 <!-- ECharts单文件引入 -->
@@ -112,7 +112,7 @@
                     geoCoord: {
                     	'故宫': [116.4035,39.9251],
                         '平安里': [116.37955,39.9404],
-                        '什刹海': [116.40259,39.9447],
+                        '鼓楼大街': [116.40009,39.9555],
                         '张自忠路': [116.4236,39.9408]
                     },
                     markLine : {
@@ -135,9 +135,7 @@
                         },
                         data : [
                             [{name:'故宫'}, {name:'平安里',value:25}],
-                            [{name:'平安里'}, {name:'故宫',value:50}],
-                            [{name:'故宫'}, {name:'什刹海',value:55}],
-                            [{name:'什刹海'}, {name:'故宫',value:90}]
+                            [{name:'平安里'}, {name:'故宫',value:50}]
                         ]
                     },
                     markPoint : {
@@ -157,7 +155,7 @@
                         data : [
                             {name:'故宫',value:0},
                             {name:'平安里',value:20},
-                            {name:'什刹海',value:50},
+                            {name:'鼓楼大街',value:50},
                             {name:'张自忠路',value:90}
                         ]
                     }
@@ -190,7 +188,9 @@
                         },
                         data : [
                             [{name:'张自忠路'},{name:'故宫'}],
-                            [{name:'故宫'},{name:'张自忠路'}]
+                            [{name:'故宫'},{name:'张自忠路'}],
+                            [{name:'故宫'}, {name:'鼓楼大街',value:55}],
+                            [{name:'鼓楼大街'}, {name:'故宫',value:90}]
                         ]
                     }
                 }
