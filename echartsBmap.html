@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>模拟热度图</title>
+ 		<script src="js/esl.js"></script>
+        <script src="js/echarts.js"></script>
+        <script src="js/jquery-1.7.2.min.js"></script></head>
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=g1EnX47kPOUc0Asis9r5mmRU7vPkLUzw"></script>
+
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main"></div>
+<!-- 自动调整宽度高度 -->
+<script type="text/javascript">
+	var winWidth,winHeight;
+    var w = window,
+    d = document,
+    e = d.documentElement,
+    winWidth = w.innerWidth || e.clientWidth || g.clientWidth,
+    winHeight = w.innerHeight|| e.clientHeight|| g.clientHeight;
+	$("#main").height(winHeight-16);
+	$("#main").width(winWidth-15);
+</script>
+
+<!-- ECharts单文件引入 -->
+<script type="text/javascript">
+// 路径配置
+(function () {
+    require.config({
+        paths: {
+            echarts: 'doc/example/www/js'
+        },
+        packages: [
+            {
+                name: 'BMap',
+                location: 'js/src',
+                main: 'main'
+            }
+        ]
+    });
+
+    require(
+    [
+        'echarts',
+        'BMap',
+        'echarts/chart/map'
+    ],
+    function (echarts, BMapExtension) {
+        var BMapExt = new BMapExtension($('#main')[0], BMap, echarts,{
+            enableMapClick: false
+        });
+        var map = BMapExt.getMap();
+        var container = BMapExt.getEchartsContainer();
+
+        var startPoint = {
+            x: 116.403500,
+            y: 39.934000
+        };
+        var point = new BMap.Point(startPoint.x, startPoint.y);
+        map.centerAndZoom(point, 15);
+        map.enableScrollWheelZoom(true);
+        // 地图自定义样式
+        
+
+        option = {
+            color: ['gold','aqua','lime'],
+            title : {
+                text: '模拟迁徙',
+                subtext:'数据纯属虚构',
+                x:'center',
+                textStyle : {
+                    color: '#fff'
+                }
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: function (v) {
+                	console.log(v);
+                    return v[1].replace('>', '到');
+                }
+            },
+            legend: {
+                orient: 'vertical',
+                x:'left',
+                data:['1', '2', '3'],
+                selectedMode: 'single',
+                selected:{
+                    '2' : false,
+                    '3' : false
+                },
+                textStyle : {
+                    color: '#fff'
+                }
+            },
+            dataRange: {
+                min : 0,
+                max : 100,
+                x: 'right',
+                calculable : true,
+                color: ['#ff3333', 'orange', 'yellow','lime','aqua'],
+                textStyle:{
+                    color:'#000'
+                }
+            },
+            series : [
+                {
+                    name:'北京',
+                    type:'map',
+                    mapType: 'none',
+                    data:[],
+                    geoCoord: {
+                    	'故宫': [116.4035,39.9251],
+                        '平安里': [116.37955,39.9404],
+                        '什刹海': [116.40259,39.9447],
+                        '张自忠路': [116.4236,39.9408]
+                    },
+                    markLine : {
+                        smooth:true,
+                        effect : {
+                            show: true,
+                            scaleSize: 1,
+                            period: 30,
+                            color: '#fff',
+                            shadowBlur: 10
+                        },
+                        itemStyle : {
+                            normal: {
+                                borderWidth:1,
+                                lineStyle: {
+                                    type: 'solid',
+                                    shadowBlur: 10
+                                }
+                            }
+                        },
+                        data : [
+                            [{name:'故宫'}, {name:'平安里',value:25}],
+                            [{name:'平安里'}, {name:'故宫',value:50}],
+                            [{name:'故宫'}, {name:'什刹海',value:55}],
+                            [{name:'什刹海'}, {name:'故宫',value:90}]
+                        ]
+                    },
+                    markPoint : {
+                        symbol:'emptyCircle',
+                        symbolSize : function (v){
+                            return 10 + v/10
+                        },
+                        effect : {
+                            show: true,
+                            shadowBlur : 0
+                        },
+                        itemStyle:{
+                            normal:{
+                                label:{show:true}
+                            }
+                        },
+                        data : [
+                            {name:'故宫',value:0},
+                            {name:'平安里',value:20},
+                            {name:'什刹海',value:50},
+                            {name:'张自忠路',value:90}
+                        ]
+                    }
+
+                },
+                {
+                    name:'全国',
+                    type:'map',
+                    mapType: 'none',
+                    data:[],
+                    markLine : {
+                        smooth:true,
+                        effect : {
+                            show: true,
+                            scaleSize: 1,
+                            period: 30,
+                            color: '#fff',
+                            shadowBlur: 10
+                        },
+                        itemStyle : {
+                            normal: {
+                                color:'#fff',
+                                borderWidth:1,
+                                lineStyle: {
+                                    type: 'solid',
+                                    shadowBlur: 10
+                                },
+                                borderColor:'rgba(30,144,255,1)'
+                            }
+                        },
+                        data : [
+                            [{name:'张自忠路'},{name:'故宫'}],
+                            [{name:'故宫'},{name:'张自忠路'}]
+                        ]
+                    }
+                }
+            ]
+        };
+        var myChart = BMapExt.initECharts(container);
+        BMapExt.setOption(option);
+    }
+);
+})();
+</script>
+</body>
+</html>
+
