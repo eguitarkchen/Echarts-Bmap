@@ -4,3 +4,5 @@ Open "All.html" you can see this view:
 
 Or you can do a simple demo , like "echartsBmap.html"
 ![图片不存在](https://github.com/eguitarkchen/Echarts-Bmap/blob/master/echartsBmap.jpg?raw=true)
+
+Anyway , It's so cool ! Don't you think so ?
